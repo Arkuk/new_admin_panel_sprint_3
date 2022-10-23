@@ -47,8 +47,8 @@ class PgExtractor:
                 for item in batch:
                     ids.append(item[0])
             return ids
-        except Exception as e:
-            logger.error(f'Ошибка в получении ids {table}')
+        except psycopg2.OperationalError as e:
+            logger.error(f'Errors in getting ids {table}')
             raise e
 
     def get_ids_m2m(self, table: str, field: str, list_ids: list[str]) -> list:
@@ -74,8 +74,8 @@ class PgExtractor:
                     ids.append(item[0])
             return ids
 
-        except Exception as e:
-            logger.error(f'Ошибка в получении ids {table}')
+        except psycopg2.OperationalError as e:
+            logger.error(f'Errors in getting ids {table}')
             raise e
 
     def get_extract_ids(self) -> tuple[str]:
@@ -121,9 +121,9 @@ class PgExtractor:
             if not ids:
                 return []
             if len(ids) == 1:
-                list_ids = f"('{ids[0]}')"
+                ids = f"('{ids[0]}')"
             else:
-                list_ids = tuple(ids)
+                ids = tuple(ids)
             ids = tuple(ids)
             query = f"""SELECT
                            fw.id,
@@ -157,8 +157,8 @@ class PgExtractor:
             for batch in data:
                 for item in batch:
                     result.append(item)
-            logger.info('Данные для обновления получены')
+            logger.info('Dates for upload get')
             return result
-        except Exception as e:
-            logger.error(f'Ошибка в получении финальных данных')
+        except psycopg2.OperationalError as e:
+            logger.error(f'Errors in getting for final dates')
             raise e

@@ -26,7 +26,7 @@ def etl_process() -> None:
     state_init()
     # Проверка существования индекса или создание в ES
     check_index = FirstStartEtl().check_or_create_index('movies')
-    logger.info('Получен ES объект')
+    logger.info('Get ES object')
     # Получение настроек
     settings = General()
     batch_size = settings.batch_size
@@ -47,7 +47,7 @@ def etl_process() -> None:
                                                table_names)
                     film_works = pg_extractor.get_extract_film_work()
                     if not film_works:
-                        logger.info('Данные для обновления отсутсвуют')
+                        logger.info('Dates is not update')
                         continue
                     # Сериализация данных
                     serializer = Serializer(film_works)
@@ -55,16 +55,16 @@ def etl_process() -> None:
                     film_works_pg = serializer.ser_pg_data()
                     # Получение сериализованных фильмов ES модели
                     film_works_es = serializer.pg_to_es_models(film_works_pg)
-                    logger.info('Данные сериализованны')
+                    logger.info('Dates serialized')
                     # Загрузка данных в ES
                     es_loader = EsLoader()
                     result = es_loader.load_data(film_works_es)
-                    logger.info(f'В ES загружено {result[0]} строк')
+                    logger.info(f'In ES load {result[0]} row')
 
-                    state.set_state('date_from', datetime.utcnow().isoformat())
+                    state.set_state('date_from', new_date_from)
 
             except psycopg2.Error as e:
-                logger.error('Не удалось получить записи из PG')
+                logger.error('Cannot get rows PG')
                 logger.error(e)
             time.sleep(1)
 

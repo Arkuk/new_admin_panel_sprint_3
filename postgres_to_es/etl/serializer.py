@@ -1,4 +1,6 @@
-from shemas import *
+from shemas import (PgFilmWork,
+                    ElasticFilmWork,
+                    PersonBase)
 from tools import get_logger
 
 logger = get_logger(__name__)
@@ -21,7 +23,7 @@ class Serializer:
             result = [PgFilmWork.parse_obj(item) for item in self.list_data]
             return result
         except Exception as e:
-            logger.info('Данные невозможно сериализовать')
+            logger.info('Dates impossible serialized')
             raise e
 
     def pg_to_es_models(
@@ -68,5 +70,5 @@ class Serializer:
                 result.append(elastic_item)
             return result
         except Exception as e:
-            logger.info('Данные невозможно сериализовать')
+            logger.info('Dates impossible serialized')
             raise e

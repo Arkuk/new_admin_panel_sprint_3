@@ -27,18 +27,18 @@ class FirstStartEtl:
         :return: bool
         """
         if self._get_existence_index(index_name):
-            logger.info(f'Индекс {index_name} уже существует')
+            logger.info(f'Index {index_name} have already created')
             return True
         else:
             try:
                 with open('elastic_shema.json', 'r') as f:
                     data = json.loads(f.read())
                     self.es.indices.create(index=index_name, body=data)
-                    logger.info(f'Индекс {index_name} создан')
+                    logger.info(f'Index {index_name} have already created')
                     self.es.close()
                     return True
             except Exception as e:
                 self.es.close()
-                logger.info(f'Индекс {index_name} не существует и не создан')
+                logger.info(f'Index {index_name} do not have and do not create')
                 logger.error(e)
                 return False

@@ -83,9 +83,8 @@ def state_init() -> None:
         state.set_state('date_from', general_settings.time_state)
 
     else:
-        logger.info('Локальное хранилище уже создано')
+        logger.info('Local storage is created')
         if state.get_state('date_from') is not None:
-            logger.info('В локальном хранилище есть date_from')
+            logger.info('In the local storage is date_from')
             return
-        else:
-            state.set_state('date_from', general_settings.time_state)
+        state.set_state('date_from', general_settings.time_state)

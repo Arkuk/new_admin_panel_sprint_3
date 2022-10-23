@@ -64,7 +64,7 @@ def conn_context_postgres(dsl: dict) -> _connection:
     try:
         yield pg_connection
     except Exception as e:
-        logger.error('Не удалось получить соединение с PG')
+        logger.error('It cannot get connection with PG')
         logger.error(e)
     finally:
         pg_connection.close()

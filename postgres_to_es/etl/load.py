@@ -11,7 +11,7 @@ logger = get_logger(__name__)
 class EsLoader:
     def __init__(self):
         self.es = get_es()
-        logger.info('Объект загрузки в ES создан')
+        logger.info('Object load ES created')
 
     @backoff()
     def load_data(self, es_data: list[ElasticFilmWork]) -> tuple[int, list]:
@@ -19,7 +19,7 @@ class EsLoader:
                  for data in es_data]
         rows_count, errors = helpers.bulk(self.es, query)
         if errors:
-            logger.info('Ошибка загрузки данных в ES')
+            logger.info('Error load in ES')
             logger.error(errors)
-            raise Exception('Ошибка загрузки данных в ES')
+            raise Exception('Error load in ES')
         return rows_count, errors
