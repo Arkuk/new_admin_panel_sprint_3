@@ -12,6 +12,18 @@ class Person(PersonBase):
     role: str
 
 
+class Genre(BaseModel):
+    id: str
+    name: str
+
+
+class PersonPgES(BaseModel):
+    id: str
+    full_name: str
+    role: list[str | None]
+    film_ids: list[str | None]
+
+
 class PgFilmWork(BaseModel):
     id: str
     title: str
@@ -21,13 +33,13 @@ class PgFilmWork(BaseModel):
     created: datetime
     modified: datetime
     persons: list[Person]
-    genres: list[str]
+    genre: list[Genre]
 
 
 class ElasticFilmWork(BaseModel):
     id: str
     imdb_rating: float | None
-    genre: list[str]
+    genre: list[Genre]
     title: str
     description: str | None
     director: list[str]

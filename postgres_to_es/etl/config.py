@@ -18,20 +18,15 @@ class General(BaseSettings):
 
 
 class SettingsPG(BaseSettings):
-    host: str = Field(...)
-    port: str = Field(...)
-    dbname: str = Field(...)
-    user: str = Field(...)
-    password: str = Field(...)
+    dbname: str = Field("movies_database", env="DB_NAME")
+    user: str = Field("app", env="DB_USER")
+    password: str = Field("123qwe", env="DB_PASSWORD")
+    host: str = Field("127.0.0.1", env="DB_HOST")
+    port: int = Field("5432", env="DB_PORT")
 
-    class Config:
-        env_prefix = 'DB_'
-        env_nested_delimiter = '_'
+
 
 
 class SettingsEs(BaseSettings):
-    host: str = Field('http://elastic:9200', env='ES_HOST')
+    host: str = Field('http://127.0.0.1:9200', env='ES_HOST')
 
-    class Config:
-        env_prefix = 'ES_'
-        env_nested_delimiter = '_'

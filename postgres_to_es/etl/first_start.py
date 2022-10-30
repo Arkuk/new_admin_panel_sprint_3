@@ -31,7 +31,7 @@ class FirstStartEtl:
             return True
         else:
             try:
-                with open('elastic_shema.json', 'r') as f:
+                with open(f'elastic_shema_{index_name}.json', 'r') as f:
                     data = json.loads(f.read())
                     self.es.indices.create(index=index_name, body=data)
                     logger.info(f'Index {index_name} have already created')
